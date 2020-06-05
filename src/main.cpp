@@ -3,6 +3,9 @@
 const GLint WIDTH = 800;
 const GLint HEIGHT = 600;
 
+float triIncrement = 0.005f;
+float triMaxOffset = 0.7f;
+
 int main() {
     openglApp app;
     if(app.createWindowUsingGLFW(WIDTH, HEIGHT)) {
@@ -13,6 +16,6 @@ int main() {
     }
     app.compileShaders();
     app.createTriangle();
-    app.render();
+    app.render(triIncrement, triMaxOffset);
     return 0;
 }

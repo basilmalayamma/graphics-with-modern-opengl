@@ -7,6 +7,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#define TORANDIANS (3.14f/180.0f)
+
 static const char *vShader = "     			    \n\
 #version 330				   		    \n\
 layout (location = 0) in vec3 pos;	            	    \n\
@@ -28,7 +30,7 @@ class openglApp {
 public:
     int createWindowUsingGLFW(int width, int height);
     int initializeGLEW(void);
-    void render(void);
+    void render(float triIncrement, float triMaxOffset);
     void createTriangle(void);
     void compileShaders(void);
     void addShaders(
@@ -41,6 +43,5 @@ private:
     GLuint mUniformModel;
     bool mDirection = true;
     float mTriOffset = 0.0f;
-    float mTriMaxOffset = 0.7f;
-    float mTriIncrement = 0.005f;
+    float mAngle = 0.0f;
 };

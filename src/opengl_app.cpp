@@ -49,7 +49,7 @@ int openglApp::initializeGLEW(void) {
     return 0;
 }
 
-void openglApp::render(void) {
+void openglApp::render(float triIncrement, float triMaxOffset) {
     //Setup view port size
     glViewport(0, 0, mBufferWidth, mBufferHeight);
 
@@ -59,14 +59,19 @@ void openglApp::render(void) {
 	glfwPollEvents();
 
 	if(mDirection) {
-	    mTriOffset += mTriIncrement;
+	    mTriOffset += triIncrement;
 	}
 	else {
-	    mTriOffset -= mTriIncrement;
+	    mTriOffset -= triIncrement;
 	}
 
-	if(abs(mTriOffset) >= mTriMaxOffset) {
+	if(abs(mTriOffset) >= triMaxOffset) {
 	    mDirection = !mDirection;
+	}
+
+	mAngle += 0.1f;
+	if(mAngle > 360.0) {
+	    mAngle = 0.0f;
 	}
 
 	//clear window
@@ -75,8 +80,10 @@ void openglApp::render(void) {
 
 	glUseProgram(mShader);
 
+	//order is important, change the order to see the difference
 	glm::mat4 model(1.0f);
-	model = glm::translate(model, glm::vec3(mTriOffset, mTriOffset, mTriOffset));
+	model = glm::translate(model, glm::vec3(mTriOffset, 0.0f, 0.0f));
+	model = glm::rotate(model, mAngle * TORANDIANS, glm::vec3(0.0f, 0.0f, 1.0f));
 	glUniformMatrix4fv(mUniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
 	glBindVertexArray(mVAO);
