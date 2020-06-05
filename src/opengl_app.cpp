@@ -63,6 +63,20 @@ void openglApp::render(void) {
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	glUseProgram(mShader);
+
+	if(mDirection) {
+	    mTriOffset += mTriIncrement;
+	}
+	else {
+	    mTriOffset -= mTriIncrement;
+	}
+
+	if(abs(mTriOffset) >= mTriMaxOffset) {
+	    mDirection = !mDirection;
+	}
+
+	glUniform1f(mUniformXMove, mTriOffset);
+
 	glBindVertexArray(mVAO);
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
@@ -125,6 +139,8 @@ void openglApp::compileShaders() {
 	std::cout << "Error validating shader: " << eLog << std::endl;
 	return;
     }
+
+    mUniformXMove = glGetUniformLocation(mShader, "xMove");
 }
 
 void openglApp::addShaders(

@@ -18,10 +18,10 @@ Section 2: Introduction to GLEW, GLFW and SDL
 	* GLFW + some additional features(Audio, threading, filesystem etc).
 	* Heavy weight.
 
-*GLUT is no longer maintaned, try to avoid it.
+GLUT is no longer maintaned, try to avoid it.
 =============================================================================================================================
 
-Section3: Coding.
+Section 3: Coding.
 =============================================================================================================================
 
 Section 4: Shaders and the rendering pipeline.
@@ -77,4 +77,41 @@ Section 4: Shaders and the rendering pipeline.
 		* Colour belnding: used to produce transparency.
 		* The output will be written to currently bound framebuffer.
 		* In double buffering the o/p is written to the back buffer and using glSwapbuffers this is brought to front.
+=============================================================================================================================
 
+Section 5: Coding.
+=============================================================================================================================
+
+Section 6: Vectors, metrices and uniform variables.
+----------------------------------------------------
+
+* Vector:
+	* Quatity with magnitude and direction.
+	* Used to represent har far an object and in what direction.
+	* x-y plane is the screen and z will be coming in or out of plane.
+	* Operations:
+		1. Addition / subtraction: role in OpenGL?
+		2. Multiplication.
+		3. Dot Product.
+		4. Cross Product
+	* vec4 = vector with 4 values.
+
+* Matrix:
+	* Used for handling model transforms, projections and views.
+	* Model transforms: Moving objects in the scene (translations, rotation and scaling)
+	* Projections: How things are viewed
+	* View: Position of camera.
+	* Matrix transforms:
+		1. Translation: Used for changing positions of a vector. Change the 4th coloumn of identity matrix.
+		2. Scaling: Used to resize a vector. Change the diagonal elemets of an identity matrix.
+		3. Rotation: Advanced, little complicated.
+	* mat4 = 4x4 matrix.
+
+* GLM(OpenGL Mathematics) Library will take care of all this in OpenGL.
+
+* If we want Translation and scaling, then just multiply 2 metrixes and use it as a single matrix.
+* translation-matrix * scaling-matrix = combined-matrix. In this case scaling will happen first and then translation. So the scaled matrix will be translated(and vice versa). Oreder matters, last operation happens first.
+
+* Uniform variables:
+	* Variables used by the shader.
+	* They are global to the shader. Where as normal variables in shader will be run for each vertices.
