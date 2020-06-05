@@ -58,12 +58,6 @@ void openglApp::render(void) {
 	//Get handle of using input
 	glfwPollEvents();
 
-	//clear window
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	glUseProgram(mShader);
-
 	if(mDirection) {
 	    mTriOffset += mTriIncrement;
 	}
@@ -75,7 +69,15 @@ void openglApp::render(void) {
 	    mDirection = !mDirection;
 	}
 
-	glUniform1f(mUniformXMove, mTriOffset);
+	//clear window
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	glUseProgram(mShader);
+
+	glm::mat4 model(1.0f);
+	model = glm::translate(model, glm::vec3(mTriOffset, mTriOffset, mTriOffset));
+	glUniformMatrix4fv(mUniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
 	glBindVertexArray(mVAO);
 
@@ -140,7 +142,7 @@ void openglApp::compileShaders() {
 	return;
     }
 
-    mUniformXMove = glGetUniformLocation(mShader, "xMove");
+    mUniformModel = glGetUniformLocation(mShader, "model");
 }
 
 void openglApp::addShaders(
@@ -162,8 +164,7 @@ void openglApp::addShaders(
     glGetShaderiv(theshader, GL_COMPILE_STATUS, &result);
     if(!result) {
 	glGetShaderInfoLog(theshader, sizeof(eLog), NULL, eLog);
-	//std::cout << "Error compiling shader: " << eLog << std::endl;
-	printf("Error compiling shader: %s\n", eLog);
+	std::cout << "Error compiling shader: " << eLog << std::endl;
 	return;
     }
 
