@@ -115,3 +115,44 @@ Section 6: Vectors, metrices and uniform variables.
 * Uniform variables:
 	* Variables used by the shader.
 	* They are global to the shader. Where as normal variables in shader will be run for each vertices.
+=============================================================================================================================
+
+Section 13: Interpolation, Indexed Draws and projections.
+--------------------------------------------------------
+
+* Interpolation:
+	* Vertex shader deals only with the vertices, the values in between the vertices are calculated using interpolation.
+	* It happens in rasterization stage.
+	* The weighted average of 3 vertices on a triangle is passed on.
+	
+* Indexed Draws:
+	* Until now we are passing the vertices as such.
+	* When the number of shapes to draw increases passing defining each vertices becomes messy.
+	* Also same points should be defined multiple times.
+	* So we use arrays and use index to obtain the vertices.
+	* Need of defining same points multiple times can be eliminted.
+	* We can reference same points multiple times so it should be defined only once. 
+
+* Projections:
+	* Describes how we see the things.
+	* Used to convert view space -> clip space.
+	* Used to give a 3d look.
+	* Coordinate system:
+		* Local space: (Coordinates with out any transformations)Raw position of each vertex from origin. 
+		* World space: Coordinates obtained by applying transformations to local space.
+		* View spcce: Coordinares w.r.t camera view. Obtained by mutiplying with projection matrix.
+		* Clip space: View space coordinates in the area not to be clipped.
+		* Screen space: Clip space coordinates coverted to coordinates of window.
+	* We need to define an area of frustum, i.e area not to be clipped.
+	* 2 types:
+		* Orthographics:
+			* Used for 2D applications.
+			* Frustum will be a cuboid.
+			* There will not be any depth effect. i.e moving object close and far will not change the size.
+		* Perspective :
+			* Used for 3D applications.
+			* Frustum will be a truncated pyramid.
+			* Gives an illusion of depth. i.e pixel on near plane diverges at an angle to reach matching point in far plane.
+	* Generate a matrix using glm and bind it to a uniform in the shader.
+	* "gl_Position = projection * view * model * vec4(pos, 1)" order is important(treated from right to left i.e: vector -> world space -> view space -> clip space).
+	
