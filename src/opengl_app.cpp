@@ -50,6 +50,9 @@ int openglApp::initializeGLEW(void) {
 }
 
 void openglApp::render(float triIncrement, float triMaxOffset) {
+    //To show the blue face in front of red face while rotating.
+    glEnable(GL_DEPTH_TEST);
+
     //Setup view port size
     glViewport(0, 0, mBufferWidth, mBufferHeight);
 
@@ -71,30 +74,33 @@ void openglApp::render(float triIncrement, float triMaxOffset) {
 	    mDirection = !mDirection;
 	}
 
-	mAngle += 0.1f;
+	mAngle += 0.5f;
 	if(mAngle > 360.0) {
 	    mAngle = 0.0f;
 	}
 
 	//clear window
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glUseProgram(mShader);
 
 	//order is important, change the order to see the difference
 	glm::mat4 model(1.0f);
-	//model = glm::rotate(model, mAngle * TORANDIANS, glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::rotate(model, mAngle * TORANDIANS, glm::vec3(0.0f, 1.0f, 0.0f));
 	//model = glm::translate(model, glm::vec3(mTriOffset, 0.0f, 0.0f));
-	model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
+	model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 
 	glUniformMatrix4fv(mUniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
 	glBindVertexArray(mVAO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
 
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	//glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
 
 	//Unbind
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 	glUseProgram(0);
 
@@ -103,14 +109,28 @@ void openglApp::render(float triIncrement, float triMaxOffset) {
 }
 
 void openglApp::createTriangle(void) {
+
+    unsigned int indices[] = {
+	0, 1, 3,
+	0, 1, 2,
+	0, 3, 2,
+	2, 3, 1
+    };
+
     GLfloat vertices[] = {
-	-1.0f, -1.0f, 0.0f,
-	1.0f, -1.0f, 0.0f,
+	-1.0f, -1.0f, -1.0f,
+	1.0f, -1.0f, -1.0f,
+	0.0f, -1.0f, 1.0f,
 	0.0f, 1.0f, 0.0f
     };
 
     glGenVertexArrays(1, &mVAO);
     glBindVertexArray(mVAO);
+
+    glGenBuffers(1, &mIBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices),
+		    indices, GL_STATIC_DRAW);
 
     glGenBuffers(1, &mVBO);
     glBindBuffer(GL_ARRAY_BUFFER, mVBO);
@@ -120,7 +140,9 @@ void openglApp::createTriangle(void) {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(0);
 
+    //Unbinding order is important
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }
 

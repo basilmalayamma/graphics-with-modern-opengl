@@ -42,7 +42,7 @@ public:
 private:
     GLFWwindow *mMainWindow;
     int mBufferWidth, mBufferHeight;
-    GLuint mVAO, mVBO, mShader;
+    GLuint mVAO, mVBO, mIBO, mShader;
     GLuint mUniformModel;
     bool mDirection = true;
     float mTriOffset = 0.0f;
