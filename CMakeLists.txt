@@ -7,8 +7,10 @@ include_directories(
 )
 
 add_executable(opengl_app
-    src/opengl_app.cpp
-    src/main.cpp
+    src/mesh.cpp
+    src/window.cpp
+    src/shader.cpp
+    test/app.cpp
 )
 
 target_link_libraries(opengl_app
