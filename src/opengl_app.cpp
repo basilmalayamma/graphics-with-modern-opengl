@@ -84,9 +84,9 @@ void openglApp::render(float triIncrement, float triMaxOffset) {
 
 	//order is important, change the order to see the difference
 	glm::mat4 model(1.0f);
-	model = glm::rotate(model, mAngle * TORANDIANS, glm::vec3(0.0f, 0.0f, 1.0f));
-	model = glm::translate(model, glm::vec3(mTriOffset, 0.0f, 0.0f));
-	model = glm::scale(model, glm::vec3(mScaleSize, 0.4f, 1.0f));
+	//model = glm::rotate(model, mAngle * TORANDIANS, glm::vec3(0.0f, 0.0f, 1.0f));
+	//model = glm::translate(model, glm::vec3(mTriOffset, 0.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
 
 	glUniformMatrix4fv(mUniformModel, 1, GL_FALSE, glm::value_ptr(model));
 

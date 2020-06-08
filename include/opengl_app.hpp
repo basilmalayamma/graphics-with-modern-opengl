@@ -12,18 +12,21 @@
 static const char *vShader = "     			    \n\
 #version 330				   		    \n\
 layout (location = 0) in vec3 pos;	            	    \n\
+out vec4 vCol;				            	    \n\
 uniform mat4 model;			                    \n\
 void main()				   	     	    \n\
 {				   		            \n\
-    gl_Position = model * vec4(pos, 1.0);   \n\
+    gl_Position = model * vec4(pos, 1.0);   		    \n\
+    vCol = vec4(clamp(pos, 0.0f, 1.0f), 1.0f);		    \n\
 }";
 
 static const char *fShader = "     		    \n\
 #version 330				   	    \n\
+in vec4 vCol;				            \n\
 out vec4 colour;			            \n\
 void main()				   	    \n\
 {				   		    \n\
-    colour = vec4(1.0f, 0.0f, 0.0f, 1.0);           \n\
+    colour = vCol;			            \n\
 }";
 
 class openglApp {
