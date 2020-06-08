@@ -14,9 +14,10 @@ static const char *vShader = "     			    \n\
 layout (location = 0) in vec3 pos;	            	    \n\
 out vec4 vCol;				            	    \n\
 uniform mat4 model;			                    \n\
+uniform mat4 projection;		                    \n\
 void main()				   	     	    \n\
 {				   		            \n\
-    gl_Position = model * vec4(pos, 1.0);   		    \n\
+    gl_Position = projection * model * vec4(pos, 1.0);	    \n\
     vCol = vec4(clamp(pos, 0.0f, 1.0f), 1.0f);		    \n\
 }";
 
@@ -43,7 +44,7 @@ private:
     GLFWwindow *mMainWindow;
     int mBufferWidth, mBufferHeight;
     GLuint mVAO, mVBO, mIBO, mShader;
-    GLuint mUniformModel;
+    GLuint mUniformModel, mUniformProjection;
     bool mDirection = true;
     float mTriOffset = 0.0f;
     float mAngle = 0.0f;

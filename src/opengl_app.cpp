@@ -56,6 +56,9 @@ void openglApp::render(float triIncrement, float triMaxOffset) {
     //Setup view port size
     glViewport(0, 0, mBufferWidth, mBufferHeight);
 
+    GLfloat aspect_ratio = (GLfloat)mBufferWidth/(GLfloat)mBufferHeight;
+    glm::mat4 projection = glm::perspective(45.0f, aspect_ratio, 1.0f, 100.0f);
+
     //Loop until window closed
     while(!glfwWindowShouldClose(mMainWindow)) {
 	//Get handle of using input
@@ -87,11 +90,12 @@ void openglApp::render(float triIncrement, float triMaxOffset) {
 
 	//order is important, change the order to see the difference
 	glm::mat4 model(1.0f);
-	model = glm::rotate(model, mAngle * TORANDIANS, glm::vec3(0.0f, 1.0f, 0.0f));
-	//model = glm::translate(model, glm::vec3(mTriOffset, 0.0f, 0.0f));
+	//model = glm::rotate(model, mAngle * TORANDIANS, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(mTriOffset, 0.0f, -2.0f));
 	model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 
 	glUniformMatrix4fv(mUniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	glUniformMatrix4fv(mUniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 
 	glBindVertexArray(mVAO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
@@ -176,6 +180,7 @@ void openglApp::compileShaders() {
     }
 
     mUniformModel = glGetUniformLocation(mShader, "model");
+    mUniformProjection = glGetUniformLocation(mShader, "projection");
 }
 
 void openglApp::addShaders(
