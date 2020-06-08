@@ -9,19 +9,6 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <vector>
 
-#define TORANDIANS (3.14f/180.0f)
-
-const GLint WIDTH = 800;
-const GLint HEIGHT = 600;
-
-float triIncrement = 0.005f;
-float triMaxOffset = 0.7f;
-
-bool mDirection = true;
-float mTriOffset = 0.0f;
-float mAngle = 0.0f;
-float mScaleSize = 0.0f;
-
 std::vector<mesh*> meshList;
 std::vector<shader*> shaderList;
 
@@ -81,25 +68,7 @@ int main() {
     while(!window.getShouldClose()) {
 	//Get handle of using input
 	glfwPollEvents();
-
-	if(mDirection) {
-	    mTriOffset += triIncrement;
-	    mScaleSize += 0.001f;
-	}
-	else {
-	    mTriOffset -= triIncrement;
-	    mScaleSize -= 0.001f;
-	}
-
-	if(abs(mTriOffset) >= triMaxOffset) {
-	    mDirection = !mDirection;
-	}
-
-	mAngle += 0.5f;
-	if(mAngle > 360.0) {
-	    mAngle = 0.0f;
-	}
-
+	
 	//clear window
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -108,11 +77,8 @@ int main() {
 
 	//order is important, change the order to see the difference
 	glm::mat4 model(1.0f);
-	//model = glm::rotate(
-	//		model, mAngle * TORANDIANS,
-	//		glm::vec3(0.0f, 1.0f, 0.0f));
 	model = glm::translate(
-			model, glm::vec3(mTriOffset, -0.5f, -2.0f));
+			model, glm::vec3(0.0f, -0.5f, -2.0f));
 	model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 
 	glUniformMatrix4fv(
@@ -123,7 +89,7 @@ int main() {
 
 	model = glm::mat4(1.0f);
 	model = glm::translate(
-			model, glm::vec3(-mTriOffset, 0.5f, -2.0f));
+			model, glm::vec3(0.0f, 0.5f, -2.0f));
 	model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 
 	glUniformMatrix4fv(
