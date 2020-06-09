@@ -40,12 +40,14 @@ int main() {
 
     mesh *mesh1 = new mesh();
     mesh1->createMesh(indices, vertices, 
-		    sizeof(indices), sizeof(vertices));
+		    sizeof(indices)/sizeof(indices[0]),
+		    sizeof(vertices)/sizeof(vertices[0]));
     meshList.push_back(mesh1);
 
     mesh *mesh2 = new mesh();
     mesh2->createMesh(indices, vertices, 
-		    sizeof(indices), sizeof(vertices));
+		    sizeof(indices)/sizeof(indices[0]),
+		    sizeof(vertices)/sizeof(vertices[0]));
     meshList.push_back(mesh2);
 
     glEnable(GL_DEPTH_TEST);
