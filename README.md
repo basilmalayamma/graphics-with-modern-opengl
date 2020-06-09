@@ -150,3 +150,35 @@ Interpolation, Indexed Draws and projections.
 	* Generate a matrix using glm and bind it to a uniform in the shader.
 	* "gl_Position = projection * view * model * vec4(pos, 1)" order is important(treated from right to left i.e: vector -> world space -> view space -> clip space).
 	
+=============================================================================================================================
+
+The Camera and user input
+-------------------------
+
+* Camera process the scene as seen from the view space.
+* View space is the coordinate system with each vertex as seen from the camera.
+* View matrix is used to convert coordinates from world space to view space.
+* View matrix composed of 4 values:
+	1. Position of camera.
+	2. Direction of camera: it actually points to the opposite direction of intuitive direction.
+	3. Right: Vectore facing right of the camera. Cross product of up vector and direction vector.
+	4. Up: Vector facing left of camera. Cross product of direction vector and right vector. 
+
+* Delta time: 
+	* Amount of time passed since last loop.
+	* This is used to keep consistent speed.
+	* deltaTime = currentTime - lastTime
+	* Multiply cameras movement speed with delta time.
+	* Used for synchronizing movement of all objects in the frame.
+	* Link: 
+
+* Turning:
+	* 3 types of movement:
+		1. Pitch: up and down
+		2. Yaw: left and right
+		3. Roll: rolling
+
+* Implementation:
+	* Set the cursor callback.
+	* Store old mouse postion and compare with the new mouse position.
+	* Use this difference to determine pitch/yaw change.
