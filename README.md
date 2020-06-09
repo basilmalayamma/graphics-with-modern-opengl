@@ -1,4 +1,4 @@
-Section 2: Introduction to GLEW, GLFW and SDL
+Introduction to GLEW, GLFW and SDL
 ---------------------------------------------
 
 * GLEW: OpenGL Extension Wrangler. 
@@ -21,10 +21,7 @@ Section 2: Introduction to GLEW, GLFW and SDL
 GLUT is no longer maintaned, try to avoid it.
 =============================================================================================================================
 
-Section 3: Coding.
-=============================================================================================================================
-
-Section 4: Shaders and the rendering pipeline.
+Shaders and the rendering pipeline.
 ---------------------------------------------
 
 * Rendering pipeline: series of stage that take place inorder to render an image to the screen.
@@ -79,10 +76,7 @@ Section 4: Shaders and the rendering pipeline.
 		* In double buffering the o/p is written to the back buffer and using glSwapbuffers this is brought to front.
 =============================================================================================================================
 
-Section 5: Coding.
-=============================================================================================================================
-
-Section 6: Vectors, metrices and uniform variables.
+Vectors, metrices and uniform variables.
 ----------------------------------------------------
 
 * Vector:
@@ -117,7 +111,7 @@ Section 6: Vectors, metrices and uniform variables.
 	* They are global to the shader. Where as normal variables in shader will be run for each vertices.
 =============================================================================================================================
 
-Section 13: Interpolation, Indexed Draws and projections.
+Interpolation, Indexed Draws and projections.
 --------------------------------------------------------
 
 * Interpolation:
