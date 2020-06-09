@@ -7,7 +7,7 @@
 
 class shader {
 public:
-    //shader();
+    shader();
     void createFromString(
 		    const char *vShader,
 		    const char *fShader);

@@ -10,6 +10,11 @@ Window::Window() {
     for(int i = 0; i < 1024; i++) {
 	mKeys[i] = 0;
     }
+    mMouseFirstMove = true;
+    mLasty = 0;
+    mLastx = 0;
+    mXChange = 0;
+    mYChange = 0;
 }
 
 Window::Window(int width, int height) {
@@ -21,6 +26,11 @@ Window::Window(int width, int height) {
     for(int i = 0; i < 1024; i++) {
 	mKeys[i] = 0;
     }
+    mMouseFirstMove = true;
+    mLasty = 0;
+    mLastx = 0;
+    mXChange = 0;
+    mYChange = 0;
 }
 
 int Window::initialize(void) {
@@ -159,6 +169,11 @@ Window::~Window() {
     mMainWindow = NULL;
     mBufferWidth = 0;
     mBufferHeight = 0;
+    mMouseFirstMove = true;
+    mLasty = 0;
+    mLastx = 0;
+    mXChange = 0;
+    mYChange = 0;
 }
 
 

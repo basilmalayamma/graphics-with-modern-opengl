@@ -1,6 +1,13 @@
 #include <iostream>
 #include <mesh.hpp>
 
+mesh::mesh() {
+    mIndexCount = 0;
+    mVAO = 0;
+    mVBO = 0;
+    mIBO = 0;
+}
+
 void mesh::createMesh(
 		unsigned int *indices,
 		GLfloat* vertices,
@@ -55,6 +62,9 @@ void mesh::clearMesh() {
     if (mVAO) {
 	glDeleteBuffers(1, &mVAO);
     }
+    mVAO = 0;
+    mVBO = 0;
+    mIBO = 0;
     mIndexCount = 0;
 }
 

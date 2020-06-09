@@ -3,6 +3,12 @@
 #include <string.h>
 #include <shader.hpp>
 
+shader::shader() {
+    mShader = 0;
+    mUniformModel = 0;
+    mUniformProjection = 0;
+}
+
 void shader::createFromString(
 		const char *vShader,
 		const char *fShader) {
@@ -110,6 +116,7 @@ void shader::clearShader(void) {
     if(mShader) {
         glDeleteProgram(mShader);
     }
+    mShader = 0;
     mUniformProjection = 0;
     mUniformModel = 0;
 }

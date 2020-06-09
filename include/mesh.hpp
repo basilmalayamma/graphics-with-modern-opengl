@@ -5,7 +5,7 @@
 
 class mesh {
 public:
-    //mesh();
+    mesh();
     void renderMesh();
     void createMesh(
 		    unsigned int *indices,

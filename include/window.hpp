@@ -22,7 +22,7 @@ private:
     GLFWwindow *mMainWindow;
     GLint mWidth, mHeight;
     int mBufferWidth, mBufferHeight;
-    bool mMouseFirstMove = true;
+    bool mMouseFirstMove;
     double mLastx, mLasty;
     double mXChange, mYChange;
     void createCallbacks(void);
