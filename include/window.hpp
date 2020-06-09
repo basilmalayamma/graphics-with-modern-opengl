@@ -13,11 +13,29 @@ public:
     int getBufferHeight(void);
     int getShouldClose(void);
     void swapBuffers(void);
+    bool* getKeys(void);
+    double getXchange(void);
+    double getychange(void);
     ~Window();
 private:
+    bool mKeys[1024];
     GLFWwindow *mMainWindow;
     GLint mWidth, mHeight;
     int mBufferWidth, mBufferHeight;
+    bool mMouseFirstMove = true;
+    double mLastx, mLasty;
+    double mXChange, mYChange;
+    void createCallbacks(void);
+    static void handleKeys(
+		    GLFWwindow *window,
+		    int key,
+		    int code,
+		    int action,
+		    int mode);
+    static void handleMouse(
+		    GLFWwindow *window,
+		    double xpos,
+		    double ypos);
 };
 
 #endif //_WINDOW_H_

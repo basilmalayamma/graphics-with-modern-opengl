@@ -4,11 +4,23 @@
 Window::Window() {
     mWidth = 800;
     mHeight = 600;
+    mMainWindow = NULL;
+    mBufferWidth = 0;
+    mBufferHeight = 0;
+    for(int i = 0; i < 1024; i++) {
+	mKeys[i] = 0;
+    }
 }
 
 Window::Window(int width, int height) {
     mWidth = width;
     mHeight = height;
+    mMainWindow = NULL;
+    mBufferWidth = 0;
+    mBufferHeight = 0;
+    for(int i = 0; i < 1024; i++) {
+	mKeys[i] = 0;
+    }
 }
 
 int Window::initialize(void) {
@@ -52,6 +64,8 @@ int Window::initialize(void) {
 	glfwTerminate();
 	return 1;	
     }
+
+    createCallbacks();
 }
 
 int Window::getBufferWidth(void) {
@@ -70,9 +84,81 @@ void Window::swapBuffers(void) {
     glfwSwapBuffers(mMainWindow);
 }
 
+void Window::createCallbacks(void) {
+    glfwSetWindowUserPointer(mMainWindow, this);
+    glfwSetKeyCallback(mMainWindow, handleKeys);
+    glfwSetCursorPosCallback(mMainWindow, handleMouse);
+    glfwSetInputMode(mMainWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+}
+ 
+void Window::handleKeys(
+		GLFWwindow *window,
+		int key,
+		int code,
+		int action,
+		int mode) {
+    Window *thisWindow = static_cast<Window*>(
+		    glfwGetWindowUserPointer(window));
+    if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
+        glfwSetWindowShouldClose(window, GL_TRUE);
+    }
+    else {
+	if(key > 0 && key < 1024) {
+	    if(action == GLFW_PRESS) {
+	        thisWindow->mKeys[key] = true;
+		std::cout << "Pressed key " << key << std::endl;
+	    }
+	    else if(action == GLFW_RELEASE) {
+	        thisWindow->mKeys[key] = false;
+		std::cout << "Released key " << key << std::endl;
+	    }
+	}
+    }
+}
+
+void Window::handleMouse(
+		GLFWwindow *window,
+		double xpos,
+		double ypos) {
+    Window *thisWindow = static_cast<Window*>(
+		    glfwGetWindowUserPointer(window));
+    if(thisWindow->mMouseFirstMove) {
+	thisWindow->mLastx = xpos;
+	thisWindow->mLasty = ypos;
+	thisWindow->mMouseFirstMove = false;
+    }
+
+    thisWindow->mXChange = xpos - thisWindow->mLastx;
+    thisWindow->mYChange = ypos - thisWindow->mLasty;
+
+    thisWindow->mLastx = xpos;
+    thisWindow->mLasty = ypos;
+}
+
+bool* Window::getKeys(void) {
+    return mKeys;
+}
+double Window::getXchange(void) {
+    double theChange = mXChange;
+    mXChange = 0;
+    return theChange;
+}
+
+double Window::getychange(void) {
+    double theChange = mYChange;
+    mYChange = 0;
+    return theChange;
+}
+
 Window::~Window() {
     glfwDestroyWindow(mMainWindow);
     glfwTerminate();
+    for(int i = 0; i < 1024; i++) {
+	mKeys[i] = 0;
+    }
+    mMainWindow = NULL;
+    mBufferWidth = 0;
+    mBufferHeight = 0;
 }
 
 
