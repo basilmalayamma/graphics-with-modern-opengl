@@ -182,3 +182,49 @@ The Camera and user input
 	* Set the cursor callback.
 	* Store old mouse postion and compare with the new mouse position.
 	* Use this difference to determine pitch/yaw change.
+
+=============================================================================================================================
+
+Textures and Image loadings
+---------------------------
+
+* Textures:
+	* Images used to add extra details to an object.
+	* Points in texture are called texels not pixels.
+	* Texels will have values btw 0 and 1.
+	* Normally we will define a texture and then map the texels to the vertices.
+
+* MipMaps:
+	* Resolution limits for textures.
+	* Problem:
+		* when we move close to the object it becomes more pixelated.
+		* when we move far it attempts to draw multiple texels of on one pixel.
+	* Solution: Mipmaps, create multiple verions of texture at different resolutions and switch btw them based on distance.
+
+* Filters:
+	* Used while rendering off centre texels.
+	* 2 possibilities:
+		1. Nearest: texel with more ovrelap is drawn.
+		2. Linear: it takes Wighted average of all texels sourrounding it.
+	* MIN_FILTER: filter to be applied when texture is made smaller.
+	* MAG_FILTER: filter to be applied when texture is made larger.
+
+* Wrap:
+	* Texels will be usually in range of 0 to 1. What if value exceed?
+	* To handle this case we use wrap parameter.
+	* There are 4 ways to handle it:
+		1. Repeat the texture.
+		2. Repeat mirrored for of texture.
+		3. GL_CLAMP: extend pixels to the edge.
+		4. Apply a coloured border.
+
+* Image loading:
+	* Most commonly used library: SOIL(Simple OpenGL Image Library)
+
+* Samplers:
+	* Samplers are variables used by shader to access the texture.
+	* Shaders access textures that are bind to a specific texture unit.
+	* Steps involved in application:
+		1. we need to generate a texture.
+		2. Bind it to a texture unit.
+		3. Specify the unit to the sampler variable in the shader.
