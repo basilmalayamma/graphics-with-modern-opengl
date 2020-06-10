@@ -16,12 +16,14 @@ public:
 		    const char *fShader);
     GLuint getUniformModel(void);
     GLuint getUniformProjection(void);
+    GLuint getUniformView(void);
     void useShader(void);
     void clearShader(void);
     ~shader();
 private:
     GLuint mShader;
     GLuint mUniformModel, mUniformProjection;
+    GLuint mUniformView;
     void compileShaders(
 		    const char *vShader,
 		    const char *fShader);

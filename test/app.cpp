@@ -1,6 +1,7 @@
 #include <shader.hpp>
 #include <mesh.hpp>
 #include <window.hpp>
+#include <camera.hpp>
 
 #include <string.h>
 #include <cmath>
@@ -19,6 +20,7 @@ int main() {
 
     Window window;
     window.initialize();
+    Camera camera(glm::vec3(0.0f, 0.0f, -2.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, 0.0f, 5.0f, 0.5f);
 
     shader *shader1 = new shader();
     shader1->createFromFiles(vShader, fShader);
@@ -55,6 +57,9 @@ int main() {
     int bufferWidth = window.getBufferWidth();
     int bufferHeight = window.getBufferHeight();
 
+    GLfloat deltaTime = 0.0f;
+    GLfloat lastTime = glfwGetTime();
+
     //Setup view port size
     glViewport(0, 0, bufferWidth, bufferHeight);
 
@@ -63,8 +68,9 @@ int main() {
     glm::mat4 projection = glm::perspective(
 		    45.0f, aspect_ratio, 1.0f, 100.0f);
 
-    GLuint mUniformProjection = shaderList[0]->getUniformProjection();
-    GLuint mUniformModel = shaderList[0]->getUniformModel();
+    GLuint uniformProjection = shaderList[0]->getUniformProjection();
+    GLuint uniformModel = shaderList[0]->getUniformModel();
+    GLuint uniformView = shaderList[0]->getUniformView();
 
     //Loop until window closed
     while(!window.getShouldClose()) {
@@ -77,6 +83,13 @@ int main() {
 
 	shaderList[0]->useShader();
 
+	GLfloat currentTime = glfwGetTime();
+	deltaTime = currentTime - lastTime;
+	lastTime = currentTime;
+
+	camera.keyControl(window.getKeys(), deltaTime);
+	camera.mouseControl(window.getXChange(), window.getYChange());
+
 	//order is important, change the order to see the difference
 	glm::mat4 model(1.0f);
 	model = glm::translate(
@@ -84,9 +97,16 @@ int main() {
 	model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 
 	glUniformMatrix4fv(
-			mUniformModel, 1, GL_FALSE,
+			uniformModel, 1, GL_FALSE,
 			glm::value_ptr(model));
 
+	glUniformMatrix4fv(
+			uniformProjection, 1, GL_FALSE,
+			glm::value_ptr(projection));
+
+	glUniformMatrix4fv(
+			uniformView, 1, GL_FALSE,
+			glm::value_ptr(camera.calculateViewMatrix()));
 	meshList[0]->renderMesh();
 
 	model = glm::mat4(1.0f);
@@ -95,13 +115,10 @@ int main() {
 	model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 
 	glUniformMatrix4fv(
-			mUniformModel, 1, GL_FALSE,
+			uniformModel, 1, GL_FALSE,
 			glm::value_ptr(model));
 	meshList[1]->renderMesh();
 
-	glUniformMatrix4fv(
-			mUniformProjection, 1, GL_FALSE,
-			glm::value_ptr(projection));
 
 	glUseProgram(0);
 

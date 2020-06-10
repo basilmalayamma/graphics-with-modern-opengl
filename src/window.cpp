@@ -148,13 +148,13 @@ void Window::handleMouse(
 bool* Window::getKeys(void) {
     return mKeys;
 }
-double Window::getXchange(void) {
+double Window::getXChange(void) {
     double theChange = mXChange;
     mXChange = 0;
     return theChange;
 }
 
-double Window::getychange(void) {
+double Window::getYChange(void) {
     double theChange = mYChange;
     mYChange = 0;
     return theChange;

@@ -8,6 +8,7 @@ include_directories(
 
 add_executable(opengl_app
     src/mesh.cpp
+    src/camera.cpp
     src/window.cpp
     src/shader.cpp
     test/app.cpp

@@ -166,7 +166,7 @@ The Camera and user input
 
 * Delta time: 
 	* Amount of time passed since last loop.
-	* This is used to keep consistent speed.
+	* This is used to keep the movement of objects at a slower speed and at consistent speed.
 	* deltaTime = currentTime - lastTime
 	* Multiply cameras movement speed with delta time.
 	* Used for synchronizing movement of all objects in the frame.

@@ -7,6 +7,7 @@ shader::shader() {
     mShader = 0;
     mUniformModel = 0;
     mUniformProjection = 0;
+    mUniformView = 0;
 }
 
 void shader::createFromString(
@@ -72,6 +73,7 @@ void shader::compileShaders(const char *vShader, const char *fShader) {
 
     mUniformModel = glGetUniformLocation(mShader, "model");
     mUniformProjection = glGetUniformLocation(mShader, "projection");
+    mUniformView = glGetUniformLocation(mShader, "view");
 }
 
 void shader::addShaders(
@@ -108,6 +110,10 @@ GLuint shader::getUniformProjection(void) {
     return mUniformProjection;
 }
 
+GLuint shader::getUniformView(void) {
+    return mUniformView;
+}
+
 void shader::useShader(void) {
     glUseProgram(mShader);
 }
@@ -118,6 +124,7 @@ void shader::clearShader(void) {
     }
     mShader = 0;
     mUniformProjection = 0;
+    mUniformView = 0;
     mUniformModel = 0;
 }
 

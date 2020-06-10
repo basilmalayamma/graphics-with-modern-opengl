@@ -14,8 +14,8 @@ public:
     int getShouldClose(void);
     void swapBuffers(void);
     bool* getKeys(void);
-    double getXchange(void);
-    double getychange(void);
+    double getXChange(void);
+    double getYChange(void);
     ~Window();
 private:
     bool mKeys[1024];
